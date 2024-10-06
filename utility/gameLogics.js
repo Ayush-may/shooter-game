@@ -1,3 +1,5 @@
+import words from "./words";
+
 export function updateScore(score) {
     document.getElementById("score").innerHTML = "score : " + score;
 }
@@ -16,7 +18,7 @@ export function updateLife(life) {
     }
 }
 
-export function handlePlayNowButtonClick() {
+export function handlePlayNowButtonClick(render, startGame, isGameStart) {
     document.getElementById('play-now')?.addEventListener("click", () => {
         document.querySelectorAll('.fade-out').forEach(e => {
             e.classList.add('hide');
@@ -27,5 +29,22 @@ export function handlePlayNowButtonClick() {
                 e.classList.add('hide');
             })
         }, 500)
+
+        setTimeout(() => {
+            document.querySelector('.word-panel').style.display = "block";
+            document.getElementById('word-input').focus();
+
+            isGameStart.value = true;
+            startGame();
+            render();
+        }, 1000)
     })
+}
+
+export const generateWord = () => {
+    let random = Math.round(Math.random() * words.length);
+    let word = words[random];
+    // words.splice(random, 1);
+
+    return word;
 }

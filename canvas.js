@@ -1,12 +1,12 @@
 import Bullet from "./Bullet";
 import Player from "./player";
-import { handlePlayNowButtonClick, updateLife, updateScore } from "./utility/gameLogics";
+import { generateWord, handlePlayNowButtonClick, updateLife, updateScore } from "./utility/gameLogics";
 import generateEnemy from "./utility/generateEnemy";
 import handleCollision from "./utility/handleCollision";
 import isThreshold from "./utility/isThreshold";
 
 let score = 0;
-let life = 5;
+let life = 1;
 
 function getScore() { return score; }
 function getLife() { return life; }
@@ -18,16 +18,25 @@ export default function setupCanvas(canvas) {
     let visited = [];
     let enemies = [];
     let running = true;
-    let timerSpeed = 500;
+    let timerSpeed = 1000;
     let timerDecrement = 50;
     let timer;
+    let isGameStart = { value: false };
+    let wordElement = document.getElementById('word');
+    let wordInput = document.getElementById('word-input');
 
     function initialRun() {
         updateScore(getScore());
         updateLife(getLife());
-        handlePlayNowButtonClick();
+        handlePlayNowButtonClick(render, startGame, isGameStart);
     }
     initialRun();
+
+    function startGame() {
+        bullets = [];
+        visited = [];
+        enemies = [];
+    }
 
     const temp = () => {
         generateEnemy(enemies, player, visited);
@@ -41,7 +50,7 @@ export default function setupCanvas(canvas) {
     }
 
     timer = setInterval(temp, timerSpeed);
-    const render = () => {
+    function render() {
         if (running) {
             ctx.clearRect(0, 0, innerWidth, innerHeight);
 
@@ -53,13 +62,27 @@ export default function setupCanvas(canvas) {
             enemies.forEach((enemy, enemyIdx) => {
                 enemy.draw(ctx);
 
-                if (isThreshold(enemy, 500)) {
-                    // if (isClosetEnemyToPlayer(enemy, player)) {
-                    if (visited[enemyIdx] == -1) {
-                        bullets.push(new Bullet(player.x, player.y, 3, 1, enemy));
-                        visited[enemyIdx] = 1;
-                    }
-                    // }
+
+                if (wordElement.innerText.toLowerCase() == wordInput.value.trim().toLowerCase()) {
+                    bullets.push(new Bullet(player.x, player.y, 3, 1, enemy));
+                    visited[enemyIdx] = 1;
+                    wordInput.value = '';
+                    wordInput.focus();
+                    wordElement.innerHTML = '';
+                    wordElement.innerHTML = generateWord();
+                }
+
+                if (isGameStart.value &&
+                    // isThreshold(enemy, 500) &&
+                    visited[enemyIdx] == -1 &&
+                    wordElement.innerText.toLowerCase() == wordInput.value.trim().toLowerCase()
+                ) {
+                    bullets.push(new Bullet(player.x, player.y, 3, 1, enemy));
+                    visited[enemyIdx] = 1;
+                    // wordInput.value = '';
+                    // wordInput.focus();
+                    // wordElement.innerHTML = '';
+                    // wordElement.innerHTML = generateWord();
                 }
 
                 bullets.forEach((bullet, bulletIdx) => {
@@ -67,9 +90,10 @@ export default function setupCanvas(canvas) {
                         enemies.splice(enemyIdx, 1);
                         visited.splice(enemyIdx, 1);
                         bullets.splice(bulletIdx, 1);
+                        score += 10;
+                        updateScore(score);
                     }
                 })
-                // }
 
                 if (checkBeyoundScreen(enemy)) {
                     enemies.splice(enemyIdx, 1);
@@ -77,9 +101,18 @@ export default function setupCanvas(canvas) {
                 }
 
                 // stops animation if enemy touch player 
-                if (handleCollision(player, enemy)) {
-                    running = false;
-                    clearInterval(timer);
+                if (isGameStart.value) {
+                    if (handleCollision(player, enemy)) {
+                        life--;
+                        enemies.splice(enemyIdx, 1);
+                        if (life == 0) {
+                            document.getElementById('total-score').innerHTML = "Total Score : " + getScore();
+                            document.getElementById('game-over-modal').style.display = 'block';
+                            running = false;
+                            clearInterval(timer);
+                        }
+                        updateLife(life);
+                    }
                 }
             })
 
@@ -96,4 +129,8 @@ function checkBeyoundScreen(enemy) {
 function isClosetEnemyToPlayer(enemy, player) {
     const distance = Math.sqrt(Math.pow(enemy.x - player.x, 2) + Math.pow(enemy.y - player.y, 2));
     return distance < 200;
+}
+
+function startGame() {
+    return true;
 }
