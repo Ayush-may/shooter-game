@@ -26,11 +26,11 @@ export default function setupCanvas(canvas) {
   let timer;
   let wordElement = document.getElementById('word');
   let wordInput = document.getElementById('word-input');
-  const popAudio = new Audio("public/assets/sounds/pop.mp3");
-  const damageAudio = new Audio("public/assets/sounds/damage.mp3");
-  const gameOverAudio = new Audio("public/assets/sounds/game-over.mp3");
-  const fireAudio = new Audio("public/assets/sounds/pop.wav");
-  const buttonClickSound = new Audio("public/assets/sounds/button-click.wav");
+  const popAudio = new Audio("sounds/pop.mp3");
+  const damageAudio = new Audio("sounds/damage.mp3");
+  const gameOverAudio = new Audio("sounds/game-over.mp3");
+  const fireAudio = new Audio("sounds/pop.wav");
+  const buttonClickSound = new Audio("sounds/button-click.wav");
 
   // document.querySelector('.introduction-modal').addEventListener('click', function () {
   //     this.classList.add('hide');
