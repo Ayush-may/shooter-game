@@ -5,12 +5,19 @@ document.querySelector('#app').innerHTML = `
     <div class="introduction-modal">
         <h3>Introduction.</h3>
         <p>The game was designed and developed by Ayush Sharma, a final-year student(2021-2025).</p>    
-        <h4>Follow me on!</h4>
-            <a href="https://github.com/ayush-may/" target="_blank">Github</a> ,
-            <a href="https://www.linkedin.com/in/ayush14may/" target="_blank">LinkedIn</a>
-        <button>Click to Remove</button>
+        <h4 style="display:inline;">Follow me on!</h4>
+        <a href="https://github.com/ayush-may/" target="_blank">Github</a> ,
+        <a href="https://www.linkedin.com/in/ayush14may/" target="_blank">LinkedIn</a>
+        <hr>
+        <h5 style="display:block;font-weight:normal;">Please create an issue on GitHub if you would like to propose a new feature or suggest any improvements.</h5>
+        <i class="fa-solid fa-xmark"></i>
     </div>
     <div class="modal fade-out">
+        <h3>Introduction.</h3>
+        <p>The game was designed and developed by Ayush Sharma, a final-year student(2021-2025).</p>    
+        <h4 style="display:inline;">Follow me on!</h4>
+        <a href="https://github.com/ayush-may/" target="_blank">Github</a> ,
+        <a href="https://www.linkedin.com/in/ayush14may/" target="_blank">LinkedIn</a>
         <h3>How to play ?</h3>
             <ol>
                 <li>You are positioned as the player at the center of the screen.</li>
@@ -33,17 +40,16 @@ document.querySelector('#app').innerHTML = `
         </div >
     
         <div class="word-panel">
+            <p id="word-first-try">Please type the word provided</p>
             <p id="word">WORD</p>
-            <input type="text" id="word-input" autocompletion="off" >
+            <input type="text" id="word-input" autocomplete="off" >
         </div>
-        <div id="game-over-modal">
+        <div id="game-over-modal" class="">
+            <h1 style="text-align:center;color:black">GAME OVER!</h1>
             <p id="total-score" style="text-align:center;color:black">Total Score : 100</p>
-            <button place="home">Home</button>
-            <button place="replay">replay?</button>
+            <button place="home" id="home-button">Home</button>
+            <button place="replay" id="replay-button">replay?</button>
         </div>
     <canvas id="canvas" width="${window.innerWidth}" height="${window.innerHeight}" />
 `
 setupCanvas(document.querySelector('#canvas'))
-
-// < p id = "word-name" style = "font-size:3rem;" > M</p >
-//     <input type="text" style="background:transparent; border:1px solid black;outline:none;text-align:center;font-size: 20px;width:100px" />

@@ -4,7 +4,7 @@ export default function generateEnemy(enemies, player, visited) {
     const val = Math.round(Math.random() * 4);
     let x, y, radii, speed = 2;
     radii = generateRadii(5, 5);
-    speed = generateSpeed(1, 1);
+    speed = 2;
 
     switch (val) {
         case 1:
@@ -14,7 +14,6 @@ export default function generateEnemy(enemies, player, visited) {
             enemies.push(new Enemy(x, y, radii, speed, player));
             break;
         case 2:
-            break;
             visited.push(-1);
             x = Math.round(Math.random() * innerWidth);
             y = 0;
@@ -27,7 +26,6 @@ export default function generateEnemy(enemies, player, visited) {
             enemies.push(new Enemy(x, y, radii, speed, player));
             break;
         case 4:
-            break;
             visited.push(-1);
             x = Math.round(Math.random() * innerWidth);
             y = innerHeight;
