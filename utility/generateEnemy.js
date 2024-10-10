@@ -4,7 +4,7 @@ export default function generateEnemy(enemies, player, visited) {
     const val = Math.round(Math.random() * 4);
     let x, y, radii, speed = 2;
     radii = generateRadii(5, 5);
-    speed = 2;
+    speed = 0.5;
 
     switch (val) {
         case 1:
