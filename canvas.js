@@ -1,5 +1,5 @@
 import Bullet from "./Bullet";
-import Player from "./player";
+import Player from "./Player";
 import { generateWord, updateLife, updateScore } from "./utility/gameLogics";
 import generateEnemy from "./utility/generateEnemy";
 import handleCollision from "./utility/handleCollision";
